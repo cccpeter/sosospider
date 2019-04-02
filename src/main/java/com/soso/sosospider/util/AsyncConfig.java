@@ -1,6 +1,5 @@
 package com.soso.sosospider.util;
 
-import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -30,14 +29,10 @@ public class AsyncConfig implements AsyncConfigurer {
         // 等待时间 （默认为0，此时立即停止），并没等待xx秒后强制停止
         threadPool.setAwaitTerminationSeconds(60);
         //  线程名称前缀
-        threadPool.setThreadNamePrefix("MyAsync-");
+        threadPool.setThreadNamePrefix("SosoAsync-");
         // 初始化线程
         threadPool.initialize();
         return threadPool;
     }
 
-    @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return null;
-    }
 }
