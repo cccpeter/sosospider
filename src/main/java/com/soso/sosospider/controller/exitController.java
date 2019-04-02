@@ -34,4 +34,8 @@ public class exitController {
         System.out.println(end-start);
         return "alive";
     }
+    @PostMapping("/getwebaddr")
+    public String getwebaddr(@RequestParam("webaddr") String webaddr){
+        return "启动成功，正在爬取。。。";
+    }
 }
