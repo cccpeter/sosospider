@@ -22,20 +22,18 @@ public class exitController {
 //    心跳包
     @PostMapping("/heart")
     public String heart(){
+        return "alive";
+    }
+    @PostMapping("/getwebaddr")
+    public String getwebaddr(@RequestParam("webaddr") String webaddr){
         long start = System.currentTimeMillis();
         try{
-            for(int i=0;i<120;i++) {
-                asyncService.task(i);
-            }
+            asyncService.task(webaddr);
         }catch (Exception e){
             System.out.println(e);
         }
         long end = System.currentTimeMillis();
         System.out.println(end-start);
-        return "alive";
-    }
-    @PostMapping("/getwebaddr")
-    public String getwebaddr(@RequestParam("webaddr") String webaddr){
         return "启动成功，正在爬取。。。";
     }
 }
