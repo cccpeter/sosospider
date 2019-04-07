@@ -1,5 +1,6 @@
 package com.soso.sosospider.dao;
 
+import org.elasticsearch.common.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -25,6 +26,14 @@ public class redisDao {
                 .opsForValue();
         String value = valOpsStr.get(key);
         return value;
+    }
+//    入队列
+    public String lpush(String key,String value){
+        return stringRedisTemplate.opsForList().leftPush(key, value).toString();
+    }
+//    出对列
+    public String rpop(String key){
+        return stringRedisTemplate.opsForList().rightPop(key);
     }
 
 }
