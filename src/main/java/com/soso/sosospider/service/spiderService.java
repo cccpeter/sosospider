@@ -67,6 +67,7 @@ public class spiderService {
                     redisDao.lpush(seed,linkHref);
                     num++;
                     System.out.println("按入队列的url"+linkHref);
+//                    question:这里的去重出现了错误
                 }
             }
         }
