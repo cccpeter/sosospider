@@ -1,0 +1,61 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <title>菜菜搜索</title>
+  <meta name="description" content="全网索引">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <link rel="stylesheet" href="animate.min.css">
+</head>
+<body>
+<header class="seo">
+</header>
+<div class="home">
+<div class="background" style="background-image: url(15532327436_74c32632ac_k.jpg);"></div> 
+<div class="overlay"></div> 
+<div class="main">
+
+<div class="home-container">
+
+<div class="logo">
+
+<div class="img-container">
+<img src="ziyuanmao_logo.png"> 
+<img src="ttround.png" class="round"></div>
+
+</div> 
+<div class="prompt">
+<div class="question">Hello, 想搜索什么呢?</div> 
+<!-- <form onsubmit="return false;" action="./"> -->
+<div class="input-container">
+
+<input type="search" id="search_input" autofocus="autofocus" maxlength="20" class="keyword-input"> 
+
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<!--[if lt IE 10]>
+<script type="text/javascript">alert('您的浏览器版本过低, 请使用IE10以上浏览器,推荐使用谷歌Chrome浏览器。')</script>
+<![endif]-->
+<script src="vue.min.js"></script>
+<script src="vue-router.min.js"></script>
+<script src="vue-resource.min.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="app.4.4.1.js"></script>
+<script type="text/javascript">
+	$('#search_input').bind('keyup', function(event) {
+　　if (event.keyCode == "13") {
+　　　　//回车执行查询
+　　　　 var search=$('#search_input').val();
+		if(search==''){
+			return false;
+		}else{
+			location.href="./result.html?search="+search;
+		}
+　　}
+});
+</script>
+</body></html>

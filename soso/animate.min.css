@@ -1,0 +1,144 @@
+@charset "UTF-8";
+
+/*!
+ * animate.css -http://daneden.me/animate
+ * Version - 3.5.1
+ * Licensed under the MIT license - http://opensource.org/licenses/MIT
+ *
+ * Copyright (c) 2016 Daniel Eden
+ */
+
+ 
+     body {
+      margin: 0;
+      font-family: 'Lantinghei SC', 'HanHei SC', 'PingFang SC', arial, 'Microsoft Yahei', georgia, verdana, helvetica, sans-serif;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-weight: 300;
+      word-break: break-all;
+    }
+
+    .seo {
+      position: absolute;
+      left: -10000px;
+      top: -10000px;
+      width: 1000px;
+    }
+
+    .loading {
+      text-align: center;
+      color: #fff;
+      background-color: rgba(236, 19, 120, 0.89);
+      background-image: radial-gradient(farthest-side ellipse at 10% 0, rgba(119, 157, 207, .8) 30%, rgba(174, 180, 186, .8) 76%, rgba(199, 175, 156, .8));
+      background-attachment: fixed, fixed;
+      background-size: cover;
+      background-position: center;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      z-index: 1;
+      margin-top: 0px;
+      top: 0px;
+    }
+
+    .loading .content {
+      font-size: 0;
+      margin: 80px auto;
+    }
+
+    .loading img {
+      width: 100px;
+    }
+
+    .loading h1 {
+      margin-top: 22px;
+    }
+
+    /*
+ * Loading Dots
+ * Can we use pseudo elements here instead :after?
+ */
+    .loading span {
+      font-size: 28px;
+      vertical-align: middle;
+      -webkit-animation: loading 2s infinite alternate;
+      animation: loading 2s infinite alternate;
+    }
+
+    /*
+     * Dots Colors
+     * Smarter targeting vs nth-of-type?
+     */
+    .loading span:nth-of-type(2) {
+      -webkit-animation-delay: 0.2s;
+      animation-delay: 0.2s;
+    }
+
+    .loading span:nth-of-type(3) {
+      -webkit-animation-delay: 0.4s;
+      animation-delay: 0.4s;
+    }
+
+    .loading span:nth-of-type(4) {
+      -webkit-animation-delay: 0.6s;
+      animation-delay: 0.6s;
+    }
+
+    .loading span:nth-of-type(5) {
+      -webkit-animation-delay: 0.8s;
+      animation-delay: 0.8s;
+    }
+
+    .loading span:nth-of-type(6) {
+      -webkit-animation-delay: 1.0s;
+      animation-delay: 1.0s;
+    }
+
+    .loading span:nth-of-type(7) {
+      -webkit-animation-delay: 1.2s;
+      animation-delay: 1.2s;
+    }
+
+    .loading span:nth-of-type(8) {
+      -webkit-animation-delay: 1.4s;
+      animation-delay: 1.4s;
+    }
+
+    .loading span:nth-of-type(9) {
+      -webkit-animation-delay: 1.6s;
+      animation-delay: 1.6s;
+    }
+
+    .loading span:nth-of-type(10) {
+      -webkit-animation-delay: 1.8s;
+      animation-delay: 1.8s;
+    }
+
+    .loading span:nth-of-type(11) {
+      -webkit-animation-delay: 2.0s;
+      animation-delay: 2.0s;
+    }
+
+    /*
+     * Animation keyframes
+     * Use transition opacity instead of keyframes?
+     */
+    @-webkit-keyframes loading {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes loading {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+	
