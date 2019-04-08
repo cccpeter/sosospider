@@ -6,8 +6,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
+import sun.awt.HKSCS;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @Repository
 public class redisDao {
@@ -34,6 +36,17 @@ public class redisDao {
 //    出对列
     public String rpop(String key){
         return stringRedisTemplate.opsForList().rightPop(key);
+    }
+
+//    创建SET
+    public boolean sset(String dorm, String key){
+        stringRedisTemplate.opsForSet().add(dorm, key);
+        return true;
+    }
+//    获取set
+    public boolean gset(String dorm,String key){
+        return stringRedisTemplate.opsForSet().isMember(dorm, key);
+
     }
 
 }

@@ -4,6 +4,7 @@ import cn.edu.hfut.dmic.contentextractor.News;
 import com.soso.sosospider.dao.redisDao;
 import com.soso.sosospider.util.MD5Utils;
 import com.soso.sosospider.util.SpiderContextService;
+import org.apache.tomcat.util.security.MD5Encoder;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,6 +13,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
+import sun.security.provider.MD5;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,13 +63,12 @@ public class spiderService {
                 String md5Href=MD5Utils.md5(linkHref);
                 String hrefin=redisDao.getByKey(md5Href);
                 if(hrefin!="1"){
-                    redisDao.save(md5Href, "1");
-                    System.out.println("数字"+num+"MD5"+md5Href);
-                    System.out.println(num+"按入队列数字");
-                    redisDao.lpush(seed,linkHref);
-                    num++;
-                    System.out.println("按入队列的url"+linkHref);
-//                    question:这里的去重出现了错误
+//                    该链接未爬取过
+                    if(!redisDao.gset(seed+"setall", md5Href)){
+                        redisDao.sset(seed+"setall", md5Href);
+                        redisDao.lpush(seed,linkHref);
+                        System.out.println("入队列成功"+linkHref);
+                    }
                 }
             }
         }
