@@ -1,8 +1,24 @@
 package com.soso.sosospider.bean;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+
+@Document(indexName = "es-customer", type = "customer", shards = 2, replicas = 1, refreshInterval = "-1")
 public class ContextBean {
     private String time;
 
+    @Override
+    public String toString() {
+        return "ContextBean{" +
+                "time='" + time + '\'' +
+                ", url='" + url + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
+    private String url;
+    private  String title;
+    private String content;
     public String getTime() {
         return time;
     }
@@ -35,7 +51,6 @@ public class ContextBean {
         this.content = content;
     }
 
-    private String url;
-    private  String title;
-    private String content;
+
+
 }

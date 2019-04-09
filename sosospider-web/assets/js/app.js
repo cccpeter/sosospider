@@ -61,7 +61,7 @@ var pageData = {
             xAxis: [{
                 type: 'category',
                 boundaryGap: false,
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                data: ['2018.4.3', '2018.4.4', '2018.4.5', '2018.4.6', '2018.4.7', '2018.4.8', '2018.4.9']
             }],
             yAxis: [{
                 type: 'value'
@@ -70,11 +70,11 @@ var pageData = {
                 color: '#838FA1'
             },
             series: [{
-                name: '邮件营销',
+                name: '爬取的总量',
                 type: 'line',
                 stack: '总量',
                 areaStyle: { normal: {} },
-                data: [120, 132, 101, 134, 90],
+                data: [14020, 48024, 63452, 83462, 124205],
                 itemStyle: {
                     normal: {
                         color: '#1cabdb',
