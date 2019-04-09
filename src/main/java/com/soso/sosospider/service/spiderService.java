@@ -57,6 +57,12 @@ public class spiderService {
         int num=1;
         for (Element link : links) {
             String linkHref = link.attr("href");
+            if(linkHref!=""&&linkHref!=null){
+                int index=linkHref.indexOf("#");
+                if(index!=-1){
+                    linkHref=linkHref.substring(0,index);
+                }
+            }
             int re=hashMap.getOrDefault("aa",-1);
             if(re==-1){
                 hashMap.put(linkHref,1);
@@ -67,7 +73,7 @@ public class spiderService {
                     if(!redisDao.gset(seed+"setall", md5Href)){
                         redisDao.sset(seed+"setall", md5Href);
                         redisDao.lpush(seed,linkHref);
-                        System.out.println("入队列成功"+linkHref);
+//                        System.out.println("入队列成功"+linkHref);
                     }
                 }
             }
