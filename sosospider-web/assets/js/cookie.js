@@ -65,10 +65,10 @@ function request(type,data,api){
     success: function(res) {
       switch (res.code){
         case "200":
-          alert("请求成功");
+        
         break;
         case "400":
-          alert("请求失败");
+          alert(res.msg);
         break;
         default:
           alert("未知错误");
