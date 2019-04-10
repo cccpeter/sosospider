@@ -3,10 +3,8 @@ server:
 spring:
   application:
     name: sosospider
-  data:
-    elasticsearch:
-      cluster-name: sosospider
-      cluster-nodes: 39.108.106.39:9300
-      local: true
-      repositories:
-        enabled: true
+  elasticsearch:
+    jest:
+      uris:
+        - http://39.108.106.29:9200
+      read-timeout: 5000

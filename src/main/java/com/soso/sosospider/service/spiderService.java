@@ -3,8 +3,6 @@ package com.soso.sosospider.service;
 import cn.edu.hfut.dmic.contentextractor.News;
 import com.soso.sosospider.dao.redisDao;
 import com.soso.sosospider.util.MD5Utils;
-import com.soso.sosospider.util.SpiderContextService;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,8 +10,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
-import sun.security.provider.MD5;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +20,8 @@ public class spiderService {
 //    对接口输入url，将输出所有的a标签的连接
     @Autowired
     private redisDao redisDao;
-
+    @Autowired
+    private SpiderContextService spiderContextService;
     /**
      * 爬虫的处理模块
      * @param seed
@@ -78,7 +75,6 @@ public class spiderService {
                 }
             }
         }
-        SpiderContextService spiderContextService=new SpiderContextService();
         News news=spiderContextService.getContext(doc);
 
         return urlList;

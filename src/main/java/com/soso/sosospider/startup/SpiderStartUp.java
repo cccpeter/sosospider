@@ -1,13 +1,17 @@
 package com.soso.sosospider.startup;
 
+import com.soso.sosospider.bean.ContextBean;
 import com.soso.sosospider.service.AsyncService;
+import com.soso.sosospider.service.ESServiceImpl;
 import com.soso.sosospider.service.spiderService;
 import com.soso.sosospider.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.naming.Context;
 import java.security.Key;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,7 +26,8 @@ public class SpiderStartUp {
 	private spiderService spiderService;
 	@Autowired
 	private com.soso.sosospider.dao.redisDao redisDao;
-
+	@Autowired
+	private ESServiceImpl esService;
 	public boolean startUpWebSpider(String webAddr){
 		boolean result=true;
 		long startTime=System.currentTimeMillis();   //获取开始时间
@@ -37,12 +42,17 @@ public class SpiderStartUp {
 				spiderService.geturl(seed,webAddr);
 			}
 //          sencond,AsyncSpider Task running
+			OUT:
 			while (true) {
 				for (int i = 0; i < 5; i++) {
 					String url = redisDao.rpop(seed);
-					String keyexist = md5Utils.md5(url);
-					redisDao.save(keyexist, "1");
-					asyncService.task(seed, url);
+					if(url==""||url==null){
+						break OUT;
+					}else {
+						String keyexist = md5Utils.md5(url);
+						redisDao.save(keyexist, "1");
+						asyncService.task(seed, url);
+					}
 				}
 				TimeUnit.SECONDS.sleep(5);
 			}
@@ -50,6 +60,10 @@ public class SpiderStartUp {
 			System.out.println(e);
 		}
 		long endTime=System.currentTimeMillis(); //获取结束时间
+//		List<ContextBean> contextBeanList= esService.searchEntity("奔跑的大");
+//		for (ContextBean contextBean : contextBeanList){
+//			System.out.println(contextBean.getContent());
+//		}
 		System.out.println("程序运行时间： "+(endTime-startTime)+"ms");
 		return result;
 	}

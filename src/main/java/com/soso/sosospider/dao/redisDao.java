@@ -1,15 +1,9 @@
 package com.soso.sosospider.dao;
 
-import org.elasticsearch.common.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
-import sun.awt.HKSCS;
-
-import javax.annotation.Resource;
-import java.util.Map;
 
 @Repository
 public class redisDao {

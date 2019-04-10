@@ -1,9 +1,16 @@
 package com.soso.sosospider.bean;
 
-import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.annotation.Id;
 
-@Document(indexName = "es-customer", type = "customer", shards = 2, replicas = 1, refreshInterval = "-1")
 public class ContextBean {
+    private static final long serialVersionUID = -763638353551774166L;
+
+    public static final String INDEX_NAME = "index_entity";
+
+    public static final String TYPE = "tstype";
+
+    @Id
+    private String id;
     private String time;
 
     @Override
@@ -19,6 +26,16 @@ public class ContextBean {
     private String url;
     private  String title;
     private String content;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
     public String getTime() {
         return time;
     }
