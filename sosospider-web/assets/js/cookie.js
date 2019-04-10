@@ -4,7 +4,7 @@
  * @param  {[type]} cname [description]
  * @return {[type]}       [description]
  */
-var server="http://localhost/";
+var server="http://119.29.189.104/index.php/";
 function getCookie(cname)
 {
   var name = cname + "=";
@@ -52,27 +52,28 @@ function getQueryString(name) {
  * 发送请求
  */
 function request(type,data,api){
-  var url=server+api;
-  var token=getCookie("token");
-  $.ajax({
-    type: type,
-    url: url,
-    contentType: "application/x-www-form-urlencoded",
-    beforeSend: function(request) {
-        request.setRequestHeader("Authorization", token);
-    },
-    data:data,
-    success: function(res) {
-      switch (res.code){
-        case "200":
-        
-        break;
-        case "400":
-          alert(res.msg);
-        break;
-        default:
-          alert("未知错误");
-        break;
-      }
-   })
+    var url=server+api;
+    var token=getCookie("token");
+    alert(data.account)
+    $.ajax({
+      type: type,
+      url: url,
+      contentType: "application/x-www-form-urlencoded",
+      beforeSend: function(request) {
+          request.setRequestHeader("Authorization", token);
+      },
+      data:data,
+      success: function(res) {
+        switch (res.code){
+          case "200":
+          break;
+          case "400":
+            alert(res.msg);
+          break;
+          default:
+            alert("未知错误");
+          break;
+        }
+     }
+  })
 }

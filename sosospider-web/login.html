@@ -43,13 +43,13 @@
                 </div>
                 <form class="am-form tpl-form-line-form">
                     <div class="am-form-group">
-                        <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入账号">
+                        <input type="text" class="tpl-form-input" id="account" placeholder="请输入账号">
                     </div>
                     <div class="am-form-group">
-                        <input type="password" class="tpl-form-input" id="user-name" placeholder="请输入密码">
+                        <input type="password" class="tpl-form-input" id="password" placeholder="请输入密码">
                     </div>
                     <div class="am-form-group">
-                        <button type="button" class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn">提交</button>
+                        <button type="button" onclick="login();" class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn">提交</button>
                     </div>
                 </form>
             </div>
@@ -57,6 +57,20 @@
     </div>
     <script src="assets/js/amazeui.min.js"></script>
     <script src="assets/js/app.js"></script>
+    <script src="assets/js/cookie.js"></script>
 </body>
-
+    <script type="text/javascript">
+        
+        function login(){
+            var account=$('#account').val();
+            var password=$('#password').val();
+            if(account==''||password==''){
+                alert("账号或者密码不能为空");
+                return false;
+            }
+            data={account:account,password:password};
+            api="Index/Login/login";
+            request('post',data,api);
+        }
+    </script>
 </html>
