@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="assets/css/amazeui.datatables.min.css" />
     <link rel="stylesheet" href="assets/css/app.css">
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/cookie.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
 
 </head>
 
@@ -139,11 +142,11 @@
                                     </div>
                                 </div>
                                 <div class="am-fr am-cf">
-                                    <div class="widget-fluctuation-description-amount text-success" am-cf>
-                                        1254324
+                                    <div class="widget-fluctuation-description-amount text-success" am-cf id="indexnums">
+                                        <!-- 1254324 -->
 
                                     </div>
-                                    <div class="widget-fluctuation-description-text am-text-right">
+                                    <div class="widget-fluctuation-description-text am-text-right" >
                                         数据来源redis统计
                                     </div>
                                 </div>
@@ -157,8 +160,8 @@
                                 当前索引队列的数量
                             </div>
                             <div class="widget-statistic-body">
-                                <div class="widget-statistic-value">
-                                    12325
+                                <div class="widget-statistic-value" id="quen">
+                                    
                                 </div>
                                 <div class="widget-statistic-description">
                                     数据来源redis统计
@@ -173,8 +176,8 @@
                                 当前正在爬取的任务数量
                             </div>
                             <div class="widget-statistic-body">
-                                <div class="widget-statistic-value">
-                                    4
+                                <div class="widget-statistic-value" id="task_num">
+                                    
                                 </div>
                                 <div class="widget-statistic-description">
                                     数据来源服务心跳统计
@@ -210,17 +213,17 @@
                             </div>
                             <div class="widget-body widget-body-md am-fr">
 
-                                <div class="am-progress-title">爬虫server <span class="am-fr am-progress-title-more">4 / 10</span></div>
+                                <div class="am-progress-title">爬虫server <span class="am-fr am-progress-title-more" id="spider_num"></span></div>
                                 <div class="am-progress">
                                     <div class="am-progress-bar" style="width: 25%"></div>
                                 </div>
-                                <div class="am-progress-title">单节点的最大并发数 <span class="am-fr am-progress-title-more">100</span></div>
+                                <div class="am-progress-title">单节点的最大并发数 <span class="am-fr am-progress-title-more" id="csupervene"></span></div>
                                 <div class="am-progress">
                                     <div class="am-progress-bar  am-progress-bar-warning" style="width: 100%"></div>
                                 </div>
-                                <div class="am-progress-title">ElasticSearch分片 <span class="am-fr am-progress-title-more">4 / 12</span></div>
+                                <div class="am-progress-title">ElasticSearch分片 <span class="am-fr am-progress-title-more" id="es_num"></span></div>
                                 <div class="am-progress">
-                                    <div class="am-progress-bar am-progress-bar-danger" style="width: 33%"></div>
+                                    <div class="am-progress-bar am-progress-bar-danger" style="width: 50%"></div>
                                 </div>
                             </div>
                         </div>
@@ -239,6 +242,27 @@
 
 </body>
 <script type="text/javascript">
-    
+api="Index/Index/index";
+var config=request(api);
+$.ajax({
+    type:"post",
+    url:config.url,
+    contentType:config.contentType,
+    data:{token:config.token},
+    success:function(res){
+        res=JSON.parse(res);
+        if(res.code=="400"){
+            layer.msg("您还未登录，或者权限不足");
+            location.href="login.html";
+        }else{
+            $('#indexnums').html(res.data.sys_index_nums);
+            $('#quen').html(res.data.sys_len_queue);
+            $('#spider_num').html(res.data.sys_spider_num+" / 10");
+            $('#task_num').html(res.data.sys_task_num);
+            $('#es_num').html(res.data.sys_es_num+" / 10");
+            $('#csupervene').html(res.data.sys_csupervene);
+        }
+    }
+})
 </script>
 </html>

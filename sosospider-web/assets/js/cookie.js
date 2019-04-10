@@ -51,29 +51,31 @@ function getQueryString(name) {
 /**
  * 发送请求
  */
-function request(type,data,api){
+function request(api){
     var url=server+api;
     var token=getCookie("token");
-    alert(data.account)
-    $.ajax({
-      type: type,
-      url: url,
-      contentType: "application/x-www-form-urlencoded",
-      beforeSend: function(request) {
-          request.setRequestHeader("Authorization", token);
-      },
-      data:data,
-      success: function(res) {
-        switch (res.code){
-          case "200":
-          break;
-          case "400":
-            alert(res.msg);
-          break;
-          default:
-            alert("未知错误");
-          break;
-        }
-     }
-  })
+    var data={url:url,token:token,contentType:"application/x-www-form-urlencoded",}
+    return data;
+  //   alert(data.account)
+  //   $.ajax({
+  //     type: type,
+  //     url: url,
+  //     contentType: "application/x-www-form-urlencoded",
+  //     beforeSend: function(request) {
+  //         request.setRequestHeader("Authorization", token);
+  //     },
+  //     data:data,
+  //     success: function(res) {
+  //       switch (res.code){
+  //         case "200":
+  //         break;
+  //         case "400":
+  //           alert(res.msg);
+  //         break;
+  //         default:
+  //           alert("未知错误");
+  //         break;
+  //       }
+  //    }
+  // })
 }
