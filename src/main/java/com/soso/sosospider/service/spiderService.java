@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author cpeter
+ * 爬虫抓取模块
+ */
 @Service
 public class spiderService {
 //    对接口输入url，将输出所有的a标签的连接
@@ -30,7 +34,7 @@ public class spiderService {
      */
     public ArrayList<String> geturl(String seed,String url){
         ArrayList<String> urlList=new ArrayList<>();
-        System.out.println(url+"爬取的网页");
+//        System.out.println(url+"爬取的网页");
         Document doc=null;
         try {
             Connection connect  = Jsoup.connect(url);

@@ -7,4 +7,4 @@ spring:
     jest:
       uris:
         - http://39.108.106.29:9200
-      read-timeout: 5000
+      read-timeout: 50000

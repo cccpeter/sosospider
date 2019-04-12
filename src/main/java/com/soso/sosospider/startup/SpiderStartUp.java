@@ -36,7 +36,6 @@ public class SpiderStartUp {
 			String seed=webAddr;
 			MD5Utils md5Utils=new MD5Utils();
 			String key=md5Utils.md5(webAddr);
-//			该链接已经爬取过
 			if(redisDao.getByKey(key)!="1"){
 				redisDao.save(key,"1");
 				spiderService.geturl(seed,webAddr);
@@ -60,10 +59,6 @@ public class SpiderStartUp {
 			System.out.println(e);
 		}
 		long endTime=System.currentTimeMillis(); //获取结束时间
-//		List<ContextBean> contextBeanList= esService.searchEntity("奔跑的大");
-//		for (ContextBean contextBean : contextBeanList){
-//			System.out.println(contextBean.getContent());
-//		}
 		System.out.println("程序运行时间： "+(endTime-startTime)+"ms");
 		return result;
 	}
