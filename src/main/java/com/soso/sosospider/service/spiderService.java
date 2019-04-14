@@ -36,6 +36,7 @@ public class spiderService {
         ArrayList<String> urlList=new ArrayList<>();
 //        System.out.println(url+"爬取的网页");
         Document doc=null;
+        Elements links=null;
         try {
             Connection connect  = Jsoup.connect(url);
             Map<String, String> header = new HashMap<String, String>();
@@ -47,40 +48,40 @@ public class spiderService {
             header.put("Connection", "keep-alive");
             Connection data = connect.data(header);
             doc = data.get();
-
+            links = doc.getElementsByTag("a");
         }catch (Exception e){
             System.out.println("爬取到异常网页结构或者网页不存在");
         }
-        Elements links = doc.getElementsByTag("a");
 //            对本页的所有url进行去重复
-        HashMap<String,Integer> hashMap=new HashMap<>();
-        hashMap.put(url,1);
-        int num=1;
-        for (Element link : links) {
-            String linkHref = link.attr("href");
-            if(linkHref!=""&&linkHref!=null){
-                int index=linkHref.indexOf("#");
-                if(index!=-1){
-                    linkHref=linkHref.substring(0,index);
+        if(links!=null) {
+            HashMap<String, Integer> hashMap = new HashMap<>();
+            hashMap.put(url, 1);
+            int num = 1;
+            for (Element link : links) {
+                String linkHref = link.attr("href");
+                if (linkHref != "" && linkHref != null) {
+                    int index = linkHref.indexOf("#");
+                    if (index != -1) {
+                        linkHref = linkHref.substring(0, index);
+                    }
                 }
-            }
-            int re=hashMap.getOrDefault("aa",-1);
-            if(re==-1){
-                hashMap.put(linkHref,1);
-                String md5Href=MD5Utils.md5(linkHref);
-                String hrefin=redisDao.getByKey(md5Href);
-                if(hrefin!="1"){
-//                    该链接未爬取过
-                    if(!redisDao.gset(seed+"setall", md5Href)){
-                        redisDao.sset(seed+"setall", md5Href);
-                        redisDao.lpush(seed,linkHref);
-//                        System.out.println("入队列成功"+linkHref);
+                int re = hashMap.getOrDefault("aa", -1);
+                if (re == -1) {
+                    hashMap.put(linkHref, 1);
+                    String md5Href = MD5Utils.md5(linkHref);
+                    String hrefin = redisDao.getByKey(md5Href);
+                    if (hrefin != "1") {
+                        //                    该链接未爬取过
+                        if (!redisDao.gset(seed + "setall", md5Href)) {
+                            redisDao.sset(seed + "setall", md5Href);
+                            redisDao.lpush(seed, linkHref);
+                            //                        System.out.println("入队列成功"+linkHref);
+                        }
                     }
                 }
             }
+            News news = spiderContextService.getContext(doc);
         }
-        News news=spiderContextService.getContext(doc);
-
         return urlList;
     }
 }
