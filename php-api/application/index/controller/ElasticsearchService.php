@@ -1,17 +1,18 @@
 <?php
-namespace Think;
-class ElasticsearchService {
-	private $host;
-	private $port;
-	private $indexName; //索引名，类似于数据库中的数据库名
-	private $tableName; //索引的表名，类似于数据库中的数据库的表名
-	function __construct($host = "", $port = "", $indexName = "", $tableName = "") {
-		$config = C ( "DB_CONFIG_ELASTICSEARCH" );
-		$this->host = $host ? $host : $config ['DB_HOST'];
-		$this->port = $port ? $port : $config ['DB_PORT'];
-		$this->indexName = $indexName ? $indexName : $config ['DB_INDEX'];
-		$this->tableName = $tableName ? $tableName : $config ['DB_TABLE'];
-	}
+namespace app\index\controller;
+
+class ElasticsearchService{
+	private $host="39.108.106.29";
+	private $port="9200";
+	private $indexName="index_entity"; //索引名，类似于数据库中的数据库名
+	private $tableName="tstype"; //索引的表名，类似于数据库中的数据库的表名
+	// function __construct($host = "", $port = "", $indexName = "", $tableName = "") {
+	// 	$config = C ( "DB_CONFIG_ELASTICSEARCH" );
+	// 	$this->host = $host ? $host : $config ['DB_HOST'];
+	// 	$this->port = $port ? $port : $config ['DB_PORT'];
+	// 	$this->indexName = $indexName ? $indexName : $config ['DB_INDEX'];
+	// 	$this->tableName = $tableName ? $tableName : $config ['DB_TABLE'];
+	// }
 	/**
 	 * 创建索引
 	 */
