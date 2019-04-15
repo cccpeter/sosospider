@@ -9,6 +9,15 @@
 # Description:       tomcat service daemon
 ### END INIT INFO
 sleep 1s
+# docker start 13625caa9f6a
+# docker start daf2f8158a52
+# docker start 03b9e0f02f30 
+# docker start af6c2c530fed
+# docker start 13625caa9f6a
+# cd /home/hh
+# nohup java -jar demo1-0.0.1-SNAPSHOT.jar &
+# cd /home
+# nohup java -jar mobile-0.0.1-SNAPSHOT.jar &
 
 PRO_NAME=/opt/java/sosospider.jar
 cd /opt/java
