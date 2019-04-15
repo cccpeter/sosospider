@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 ### BEGIN INIT INFO
 # Provides:          bbzhh.com
 # Required-Start:    $local_fs $network
@@ -8,6 +8,8 @@
 # Short-Description: tomcat service
 # Description:       tomcat service daemon
 ### END INIT INFO
+sleep 1s
+
 PRO_NAME=/opt/java/sosospider.jar
 cd /opt/java
 while true ; do
@@ -17,13 +19,15 @@ while true ; do
 
      if [ "${NUM}" -lt "1" ];then
          echo "${PRO_NAME} was killed"
-		rm -rf /opt/java/nohup.out
+		  rm -rf /opt/java/nohup.out
+          cd /opt/java
          nohup java -jar /opt/java/sosospider.jar &
 
     elif [ "${NUM}" -gt "1" ];then
         echo "more than 1 ${PRO_NAME},killall ${PRO_NAME}"
          killall -9 $PRO_NAME
 		rm -rf /opt/java/nohup.out
+        cd /opt/java
         nohup java -jar /opt/java/sosospider.jar &
      fi
 
@@ -31,9 +35,10 @@ while true ; do
      if [ "${NUM_STAT}" -gt "0" ];then
          killall -9 ${PRO_NAME}
 		rm -rf /opt/java/nohup.out
+        cd /opt/java
          nohup java -jar /opt/java/sosospider.jar &
     fi
-     sleep 5s
+     sleep 10s
  done
  
  exit 0
