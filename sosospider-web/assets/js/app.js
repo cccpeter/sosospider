@@ -27,7 +27,23 @@ $(function() {
     //       storageSave(saveSelectColor);
     //     }
 })
-
+var data="";
+var day=""
+api="Index/Index/getspiderday";
+var config=request(api);
+$.ajax({
+    type:"post",
+    url:config.url,
+    async: false,
+    contentType:config.contentType,
+    data:{token:config.token},
+    success:function(res){
+        res=JSON.parse(res);
+        console.log(res)
+        data=res.data;
+        day=res.day;
+    }
+});
 
 // 页面数据
 var pageData = {
@@ -61,7 +77,7 @@ var pageData = {
             xAxis: [{
                 type: 'category',
                 boundaryGap: false,
-                data: ['2018.4.3', '2018.4.4', '2018.4.5', '2018.4.6', '2018.4.7', '2018.4.8', '2018.4.9']
+                data: day
             }],
             yAxis: [{
                 type: 'value'
@@ -74,7 +90,7 @@ var pageData = {
                 type: 'line',
                 stack: '总量',
                 areaStyle: { normal: {} },
-                data: [14020, 48024, 63452, 83462, 124205,465,67576,867],
+                data: data,
                 itemStyle: {
                     normal: {
                         color: '#1cabdb',

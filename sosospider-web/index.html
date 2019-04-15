@@ -213,9 +213,9 @@
                             </div>
                             <div class="widget-body widget-body-md am-fr">
 
-                                <div class="am-progress-title">爬虫server <span class="am-fr am-progress-title-more" id="spider_num"></span></div>
+                                <div class="am-progress-title">爬虫工作情况 <span class="am-fr am-progress-title-more" id="spider_num"></span></div>
                                 <div class="am-progress">
-                                    <div class="am-progress-bar" style="width: 25%"></div>
+                                    <div class="am-progress-bar" id="spider_numclass" style="width: 25%"></div>
                                 </div>
                                 <div class="am-progress-title">单节点的最大并发数 <span class="am-fr am-progress-title-more" id="csupervene"></span></div>
                                 <div class="am-progress">
@@ -244,6 +244,8 @@
 <script type="text/javascript">
 api="Index/Index/index";
 var config=request(api);
+var username=getCookie("username");
+$("#username").html(username);
 $.ajax({
     type:"post",
     url:config.url,
@@ -257,9 +259,12 @@ $.ajax({
         }else{
             $('#indexnums').html(res.data.sys_index_nums);
             $('#quen').html(res.data.sys_len_queue);
-            $('#spider_num').html(res.data.sys_spider_num+" / 10");
+            $('#spider_num').html(res.data.spider_online+" / "+res.data.spidernums);
+            var numspider=res.data.spider_online/res.data.spidernums;
+            numspider="width:"+numspider*100+"%";
+            $("#spider_numclass").attr("style",numspider);
             $('#task_num').html(res.data.sys_task_num);
-            $('#es_num').html(res.data.sys_es_num+" / 10");
+            $('#es_num').html(res.data.sys_es_num+" / 20");
             $('#csupervene').html(res.data.sys_csupervene);
         }
     }

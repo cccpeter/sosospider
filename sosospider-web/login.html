@@ -82,6 +82,7 @@ function login(){
             res=JSON.parse(res);
             if(res.code=="200"){
                 setCookie("token",res.token);
+                setCookie("username",res.username);
                 window.location.href="index.html";
             }else{
                 layer.msg("账号或者密码错误！");

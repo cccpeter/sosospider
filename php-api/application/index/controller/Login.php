@@ -17,7 +17,7 @@ class Login extends Controller
 			$token=md5($time.$user['user_account']);
 			$data=$user['user_account'].'|'.$user['user_auth'];
 			Cache::set($token,$data);
-			$re=['code'=>'200','token'=>$token];
+			$re=['code'=>'200','token'=>$token,'username'=>$user['user_name']];
 			return json_encode($re);
 		}else{
 			$re=['code'=>'400'];
