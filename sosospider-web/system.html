@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="assets/css/amazeui.datatables.min.css" />
     <link rel="stylesheet" href="assets/css/app.css">
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/cookie.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
 
 </head>
 <body data-type="index">
@@ -153,8 +156,8 @@
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr class="gradeX">
+                                        <tbody id="list">
+                                           <!--  <tr class="gradeX">
                                                 <td>2G单核爬虫</td>
                                                 <td>119.29.189.104</td>
                                                 <td>7800</td>
@@ -183,7 +186,7 @@
                                                         </a>
                                                     </div>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -213,7 +216,37 @@
     <script src="assets/js/amazeui.datatables.min.js"></script>
     <script src="assets/js/dataTables.responsive.min.js"></script>
     <script src="assets/js/app.js"></script>
-
+<script type="text/javascript">
+var username=getCookie("username");
+$("#username").html(username);
+api="Index/Index/systemlist";
+var config=request(api);
+$.ajax({
+    type:"post",
+    url:config.url,
+    contentType:config.contentType,
+    data:{token:config.token},
+    success:function(res){
+        res=JSON.parse(res);
+        if(res.code=="400"){
+            layer.msg("您还未登录，或者权限不足");
+            location.href="login.html";
+        }
+        var html="";
+        console.log(res);
+        for(var i=0;i<res.data.length;i++){
+            html+='<tr class="gradeX"><td>'+res.data[i].spider_remark+'</td><td>'+res.data[i].spider_ip+'</td><td>'+res.data[i].spider_port+'</td><td><div class="tpl-table-black-operation"><a href="javascript:;" onclick=edit("'+res.data[i]['spider_id']+'")><i class="am-icon-pencil"></i> 编辑</a><a onclick=del("'+res.data[i]['spider_id']+'") href="javascript:;" class="tpl-table-black-operation-del"><i class="am-icon-trash"></i> 删除</a></div></td></tr>'
+        }
+        $('#list').html(html);
+    }
+});
+function edit(id){
+alert("edit"+id);
+}
+function del(id){
+alert("del"+id);
+}
+</script>
 </body>
 
 </html>
