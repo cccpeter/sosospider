@@ -6,6 +6,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Cache;
+use Redis;
 use app\index\controller\Base;
 use app\index\controller\ElasticsearchService;
 class Index extends Base
@@ -14,6 +15,13 @@ class Index extends Base
     public function index()
     {
     	$sys=db("sys")->find();
+    	$weblist=db("web")->field("web_addr")->select();
+    	$redis = new Redis();  
+		$redis->connect('47.107.77.9', 6379); 
+    	foreach ($weblist as $value) {
+			$num=$redis->lSize("http://rango.swoole.com/aboutme");
+			dump($num);
+    	}
     	$data=json_encode(['data'=>$sys,'code'=>'200']);
         return $data;
     }
