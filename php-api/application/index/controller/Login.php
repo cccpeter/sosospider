@@ -14,8 +14,8 @@ class Login extends Controller
 		$user=db("user")->where(["user_account"=>$account,"user_password"=>$password])->find();
 		if($user!=""){
 			$time=time()+"cpeter";
-			$token=md5($time.$user['user_account']);
-			$data=$user['user_account'].'|'.$user['user_auth'];
+			$token=md5($time.$user['user_id']);
+			$data=$user['user_id'].'|'.$user['user_auth'];
 			Cache::set($token,$data);
 			$re=['code'=>'200','token'=>$token,'username'=>$user['user_name']];
 			return json_encode($re);

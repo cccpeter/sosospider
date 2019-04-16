@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/cookie.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+    <title>编辑</title>
+    <style type="text/css">
+              /*复选框的css*/
+input[type=checkbox] {  
+    display: inline-block;  
+    vertical-align: middle;  
+    width: 20px;  
+    height: 20px;  
+    margin-left: 5px;  
+    appearance: none; /**css3属性，不支持ie，但不影响使用**/
+    -webkit-appearance: none;  
+    -moz-appearance: none;  
+    background-color: transparent;  
+    border: 0;  
+    outline: 0 !important;  
+    line-height: 20px;  
+    color: #d8d8d8;  
+} 
+input[type=checkbox]:after  {  
+    content: "";  
+    display:block;  
+    width: 20px;  
+    height: 20px;  
+    text-align: center;  
+    line-height: 14px;  
+    font-size: 16px;  
+    color: #fff;  
+    border: 2px solid #ddd;  
+    background-color: #fff;  
+    box-sizing:border-box;  
+}  
+input[type=checkbox]:checked:after  {  
+     content: "\2713";  
+    border-color: #37AF6E;  
+    background-color: #37AF6E;
+} 
+select{
+  border-radius: 5px;
+}
+
+/* #form_tbody td input:hover{
+background-color: #555;
+}*/
+/*取出日历中的秒选项*/
+.layui-laydate-content>.layui-laydate-list {
+  padding-bottom: 0px;
+  overflow: hidden;
+}
+.layui-laydate-content>.layui-laydate-list>li{
+  width:50%
+}
+    </style>
+</head>
+<body>
+    <div style="width: 90%;text-align: center;padding-left: 30px;padding-right: 30px;">
+          <div class="row cl " >
+              <table class="layui-table">
+                <colgroup>
+                  <col width="150">
+                  <col width="200">
+                  <col>
+                </colgroup>
+                <tbody id="adduid">
+                   <tr>
+                    <td>
+                      请输入网站地址
+                    </td>
+                    <td>
+                      <div class="am-form-group">
+                          <input type="text" class="tpl-form-input" id="webaddr" placeholder="请输入网站地址">
+                        <span class="am-form-caret"></span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      操作
+                    </td>
+                    <td>
+                      <input class="layui-btn layui-btn-sm" type="button" style="width: 200px;" value="新增" onclick="adddata()">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+    </div>
+</body>
+<script>
+  // layui=layui.layer();
+
+  function adddata(){
+    var api="Index/User/webuseradd";
+    var config=request(api);
+    var webaddr=$('#webaddr').val();
+    if(webaddr==''||webaddr==null){
+      layer.msg("请补充完整字段");
+      return false;
+    }
+    $.ajax({
+      url:config.url,
+      data:{webaddr:webaddr,token:config.token},
+      type:"post",
+      dataType:"json",
+      success:function(re){
+        layer.msg("添加网站成功");
+        setTimeout(function(){
+            location.href = "";
+        },2000)
+      }
+    })
+  }
+
+</script>
+</html>

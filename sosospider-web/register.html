@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Amaze UI Admin index Examples</title>
+    <title>SoSospider</title>
     <meta name="description" content="这是一个 index 页面">
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +17,9 @@
     <link rel="stylesheet" href="assets/css/amazeui.datatables.min.css" />
     <link rel="stylesheet" href="assets/css/app.css">
     <script src="assets/js/jquery.min.js"></script>
-
+    <script src="assets/js/cookie.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
 </head>
 
 <body data-type="login">
@@ -41,46 +43,21 @@
             <div class="tpl-login-content">
                 <div class="tpl-login-title">注册用户</div>
                 <span class="tpl-login-content-info">
-                  创建一个新的用户
+                  注册成为站长
               </span>
-
-
                 <form class="am-form tpl-form-line-form">
                     <div class="am-form-group">
-                        <input type="text" class="tpl-form-input" id="user-name" placeholder="邮箱">
-
+                        <input type="text" class="tpl-form-input" id="account" placeholder="账号">
                     </div>
-
+                     <div class="am-form-group">
+                        <input type="text" class="tpl-form-input" id="username" placeholder="用户名">
+                    </div>
                     <div class="am-form-group">
-                        <input type="text" class="tpl-form-input" id="user-name" placeholder="用户名">
+                        <input type="password" class="tpl-form-input" id="password" placeholder="请输入密码">
                     </div>
-
                     <div class="am-form-group">
-                        <input type="password" class="tpl-form-input" id="user-name" placeholder="请输入密码">
-                    </div>
-
-                    <div class="am-form-group">
-                        <input type="password" class="tpl-form-input" id="user-name" placeholder="再次输入密码">
-                    </div>
-
-                    <div class="am-form-group tpl-login-remember-me">
-                        <input id="remember-me" type="checkbox">
-                        <label for="remember-me">
-       
-                        我已阅读并同意 <a href="javascript:;">《用户注册协议》</a> 
-                         </label>
-
-                    </div>
-
-
-
-
-
-
-                    <div class="am-form-group">
-
-                        <button type="button" class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn">提交</button>
-
+                        <button type="button" class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn" onclick="register()">提交</button>
+                        <button type="button" class="am-btn am-btn-primary  am-btn-block tpl-btn-bg-color-success  tpl-login-btn" onclick="userlogin()">返回登录</button>
                     </div>
                 </form>
             </div>
@@ -88,7 +65,30 @@
     </div>
     <script src="assets/js/amazeui.min.js"></script>
     <script src="assets/js/app.js"></script>
-
+<script type="text/javascript">
+    function userlogin(){
+        location.href="userlogin.html";
+    }
+    api="Index/register/index";
+    var config=request(api);
+    function register(){
+        var username=$('#username').val();
+        var password=$('#password').val();
+        var account=$('#account').val();
+        $.ajax({
+            type:"post",
+            url:config.url,
+            contentType:config.contentType,
+            data:{username:username,password:password,account:account},
+            success:function(res){
+                layer.msg("注册成功，即将返回登录界面");
+                setTimeout(function(){
+                    location.href = "userlogin.html";
+                },2000)
+            }
+        });
+    }
+</script>
 </body>
 
 </html>
