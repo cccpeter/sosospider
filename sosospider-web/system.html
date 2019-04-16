@@ -144,6 +144,7 @@
                                                 <th>备注</th>
                                                 <th>IP</th>
                                                 <th>端口</th>
+                                                <th>状态</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
@@ -196,7 +197,15 @@ $.ajax({
         var html="";
         console.log(res);
         for(var i=0;i<res.data.length;i++){
-            html+='<tr class="gradeX"><td>'+res.data[i].spider_remark+'</td><td>'+res.data[i].spider_ip+'</td><td>'+res.data[i].spider_port+'</td><td><div class="tpl-table-black-operation"><a href="javascript:;" onclick=edit("'+res.data[i]['spider_id']+'")><i class="am-icon-pencil"></i> 编辑</a><a onclick=del("'+res.data[i]['spider_id']+'") href="javascript:;" class="tpl-table-black-operation-del"><i class="am-icon-trash"></i> 删除</a></div></td></tr>'
+            var status="";
+            if(res.data[i].spider_status=="01"){
+                status="任务爬取中";
+            }else if(res.data[i].spider_status=="00"){
+                status="任务暂停中";
+            }else{
+                status="无任务空闲中";
+            }
+            html+='<tr class="gradeX"><td>'+res.data[i].spider_remark+'</td><td>'+res.data[i].spider_ip+'</td><td>'+res.data[i].spider_port+'</td><td>'+status+'</td><td><div class="tpl-table-black-operation"><a href="javascript:;" onclick=edit("'+res.data[i]['spider_id']+'")><i class="am-icon-pencil"></i> 编辑</a><a onclick=del("'+res.data[i]['spider_id']+'") href="javascript:;" class="tpl-table-black-operation-del"><i class="am-icon-trash"></i> 删除</a></div></td></tr>'
         }
         $('#list').html(html);
     }

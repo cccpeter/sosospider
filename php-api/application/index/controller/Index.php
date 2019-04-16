@@ -40,7 +40,7 @@ class Index extends Base
     		$re=db("spiderday")->insert(['time'=>time(),'nums'=>'0','allnums'=>$keys[1]]);
     	}
     	$spidernums=db("spider")->count();
-    	$spider_online=db("spider")->where(['spider_status'=>'01'])->count();
+    	$spider_online=db("spider")->where(['spider_status'=>'02'])->count();
     	$sys['spidernums']=$spidernums;
     	$sys['spider_online']=$spider_online;
     	$data=json_encode(['data'=>$sys,'code'=>'200']);
@@ -125,6 +125,39 @@ class Index extends Base
     	$web_id=input("post.web_id");
     	db("web")->where(['web_id'=>$web_id])->delete();
     	$data=['status'=>'1','msg'=>'删除成功'];
+    	return json_encode($data);
+    }
+    /**
+     * 爬虫任务列表
+     * 
+     */
+    public function getspidertask(){
+    	$tasklist=db("spider")->where(['spider_status'=>"00"])->whereOr(['spider_status'=>"01"])->select();
+    	$data=['status'=>'1','data'=>$tasklist];
+    	return json_encode($data);
+    }
+    /**
+     * 爬虫一次只能爬取一个
+     * 多个爬虫可以爬取一个网站，并且共享同一个队列
+     * 
+     * @return [type] [description]
+     */
+    public function gettaskadd(){
+    	$spider=db("spider")->where(['spider_status'=>"02"])->select();
+    	$webaddr=db("web")->select();
+    	$data=['status'=>'1','spider'=>$spider,'webaddr'=>$webaddr];
+    	return json_encode($data);
+    }
+    /**
+     * 添加爬虫任务
+     */
+    public function spideraddtask(){
+    	$status=input("post.status");
+    	$spider_id=input("post.spider");
+    	$webaddr_id=input("post.webaddr");
+    	$web=db("web")->where(['web_id'=>$webaddr_id])->find();
+    	$re=db("spider")->where(['spider_id'=>$spider_id])->update(['spider_status'=>$status,'spider_url'=>$web['web_addr']]);
+    	$data=['status'=>'1','msg'=>'添加成功'];
     	return json_encode($data);
     }
 }

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/cookie.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+    <title>编辑</title>
+    <style type="text/css">
+              /*复选框的css*/
+input[type=checkbox] {  
+    display: inline-block;  
+    vertical-align: middle;  
+    width: 20px;  
+    height: 20px;  
+    margin-left: 5px;  
+    appearance: none; /**css3属性，不支持ie，但不影响使用**/
+    -webkit-appearance: none;  
+    -moz-appearance: none;  
+    background-color: transparent;  
+    border: 0;  
+    outline: 0 !important;  
+    line-height: 20px;  
+    color: #d8d8d8;  
+} 
+input[type=checkbox]:after  {  
+    content: "";  
+    display:block;  
+    width: 20px;  
+    height: 20px;  
+    text-align: center;  
+    line-height: 14px;  
+    font-size: 16px;  
+    color: #fff;  
+    border: 2px solid #ddd;  
+    background-color: #fff;  
+    box-sizing:border-box;  
+}  
+input[type=checkbox]:checked:after  {  
+     content: "\2713";  
+    border-color: #37AF6E;  
+    background-color: #37AF6E;
+} 
+select{
+  border-radius: 5px;
+}
+
+/* #form_tbody td input:hover{
+background-color: #555;
+}*/
+/*取出日历中的秒选项*/
+.layui-laydate-content>.layui-laydate-list {
+  padding-bottom: 0px;
+  overflow: hidden;
+}
+.layui-laydate-content>.layui-laydate-list>li{
+  width:50%
+}
+    </style>
+</head>
+<body>
+    <div style="width: 90%;text-align: center;padding-left: 30px;padding-right: 30px;">
+          <div class="row cl " >
+              <table class="layui-table">
+                <colgroup>
+                  <col width="150">
+                  <col width="200">
+                  <col>
+                </colgroup>
+                <tbody id="adduid">
+                   <tr>
+                    <td style="text-align: center;">选择爬虫</td>
+                    <td style="text-align: center;">
+                      <div class="am-form-group">
+                          <select id="spider" style="width: 90%;">
+                          </select>
+                        <span class="am-form-caret"></span>
+                      </div>
+                    </td>
+                    <!-- <td style="text-align: center;">选择任务的状态</td>
+                    <td style="text-align: center;">操作</td> -->
+                  </tr> 
+                   <tr>
+                    <td>
+                      选择爬虫的网站
+                    </td>
+                    <td>
+                      <div class="am-form-group">
+                          <select id="webaddr" style="width: 90%;">
+                          </select>
+                        <span class="am-form-caret"></span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      选择任务的状态
+                    </td>
+                    <td>
+                      <div class="am-form-group">
+                          <select id="status" style="width: 90%;">
+                            <option value="01">启动</option>
+                            <option value="00">暂停</option>
+                          </select>
+                        <span class="am-form-caret"></span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      操作
+                    </td>
+                    <td>
+                      <input class="layui-btn layui-btn-sm" type="button" style="width: 200px;" value="新增" onclick="adddata()">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        
+    </div>
+  <!--   <div style="width: 92%;text-align: center;padding: 15px;margin-top: 100px;">
+        <a class="btn btn-secondary radius">确定</a>
+        <a class="btn btn-secondary-outline radius">取消</a>
+    </div> -->
+</body>
+<script>
+  // layui=layui.layer();
+api="Index/Index/gettaskadd";
+var config=request(api);
+$.ajax({
+  url:config.url,
+  data:{token:config.token},
+  type:"post",
+  dataType:"json",
+  success:function(res){
+    // res=JSON.parse(res);
+    if(res.status=='1'){
+      var spiderhtml='';
+      var webaddrhtml="";
+      for(var i=0;i<res.spider.length;i++){
+        spiderhtml+='<option value="'+res.spider[i].spider_id+'">'+res.spider[i].spider_remark+'---'+res.spider[i].spider_ip+':'+res.spider[i].spider_port+'</option>';
+      }
+      $('#spider').html(spiderhtml);
+      for(var i=0;i<res.webaddr.length;i++){
+        webaddrhtml+='<option value="'+res.webaddr[i].web_id+'">'+res.webaddr[i].web_addr+'</option>';
+      }
+      $('#webaddr').html(webaddrhtml);
+    }else{
+      layer.msg(re.msg);
+    }
+  }
+})
+  function adddata(){
+    var api="Index/Index/spideraddtask";
+    var config=request(api);
+    var status=$('#status').val();
+    var spider=$('#spider').val();
+    var webaddr=$('#webaddr').val();
+    if(status==''||spider==''||webaddr==''||spider==null||webaddr==null){
+      layer.msg("请补充完整字段");
+      return false;
+    }
+    $.ajax({
+      url:config.url,
+      data:{webaddr:webaddr,spider:spider,status:status,token:config.token},
+      type:"post",
+      dataType:"json",
+      success:function(re){
+        layer.msg("添加任务成功");
+        setTimeout(function(){
+            location.href = "";
+        },2000)
+      }
+    })
+  }
+
+</script>
+</html>
