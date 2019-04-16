@@ -78,4 +78,12 @@ class Index extends Base
     	$data=json_encode(['data'=>$spider_list]);
     	return $data;
     }
+    public function spideradd(){
+    	$remark=input('post.remark');
+    	$ip=input('post.ip');
+    	$port=input('post.port');
+    	db("spider")->insert(['spider_remark'=>$remark,'spider_port'=>$port,'spider_ip'=>$ip,'spider_status'=>'00']);
+    	$data=json_encode(['status'=>'1','msg'=>"添加成功"]);
+    	return $data;
+    }
 }
