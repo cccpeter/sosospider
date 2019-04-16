@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/cookie.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+    <title>编辑</title>
+    <style type="text/css">
+              /*复选框的css*/
+input[type=checkbox] {  
+    display: inline-block;  
+    vertical-align: middle;  
+    width: 20px;  
+    height: 20px;  
+    margin-left: 5px;  
+    appearance: none; /**css3属性，不支持ie，但不影响使用**/
+    -webkit-appearance: none;  
+    -moz-appearance: none;  
+    background-color: transparent;  
+    border: 0;  
+    outline: 0 !important;  
+    line-height: 20px;  
+    color: #d8d8d8;  
+} 
+input[type=checkbox]:after  {  
+    content: "";  
+    display:block;  
+    width: 20px;  
+    height: 20px;  
+    text-align: center;  
+    line-height: 14px;  
+    font-size: 16px;  
+    color: #fff;  
+    border: 2px solid #ddd;  
+    background-color: #fff;  
+    box-sizing:border-box;  
+}  
+input[type=checkbox]:checked:after  {  
+     content: "\2713";  
+    border-color: #37AF6E;  
+    background-color: #37AF6E;
+} 
+select{
+  border-radius: 5px;
+}
+
+/* #form_tbody td input:hover{
+background-color: #555;
+}*/
+/*取出日历中的秒选项*/
+.layui-laydate-content>.layui-laydate-list {
+  padding-bottom: 0px;
+  overflow: hidden;
+}
+.layui-laydate-content>.layui-laydate-list>li{
+  width:50%
+}
+    </style>
+</head>
+<body>
+    <div style="float:right;padding: 10px 30px 10px 0px;">
+      <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="add();">新增</button>
+    </div>
+    <div style="width: 90%;text-align: center;padding-left: 30px;padding-right: 30px;">
+          <div class="row cl " >
+              <table class="layui-table">
+                <colgroup>
+                  <col width="150">
+                  <col width="200">
+                  <col>
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th style="text-align: center;">爬虫备注</th>
+                    <th style="text-align: center;">IP</th>
+                    <th style="text-align: center;">端口</th>
+                    <th style="text-align: center;">操作</th>
+                  </tr> 
+                </thead>
+                <tbody id="adduid">
+                   <tr id='list0'>
+                    <td><input type="text" required  placeholder="爬虫备注" id='uid0' class="layui-input" style="width: 100%;"></td>
+                    <td><input id='addr0' type="text" required  lay-verify="required" placeholder="IP" class="layui-input" style="width: 100%;"></td>
+                    <td><input id='name0' type="text" required  lay-verify="required" placeholder="端口" class="layui-input" style="width: 100%;"></td>
+                    <td><input class="layui-btn layui-btn-sm" type="button" value="新增" onclick="adddata('0')"> <input class="layui-btn layui-btn-sm layui-btn-danger" onclick="del('0')" type="button" value="取消"></td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+          
+        
+    </div>
+  <!--   <div style="width: 92%;text-align: center;padding: 15px;margin-top: 100px;">
+        <a class="btn btn-secondary radius">确定</a>
+        <a class="btn btn-secondary-outline radius">取消</a>
+    </div> -->
+</body>
+<script>
+  // layui=layui.layer();
+api="Index/Index/systemlist";
+var config=request(api);
+  window.tr_id='1';
+  function add(){
+    var html='';
+    html+='<tr id=list'+tr_id+'><td><input type="text" required  lay-verify="required" placeholder="爬虫备注" id=uid'+tr_id+' class="layui-input" style="width: 100%;"></td><td><input id=addr'+tr_id+' type="text" required  lay-verify="required" placeholder="IP" class="layui-input" style="width: 100%;"></td><td><input id=name'+tr_id+' type="text" required  lay-verify="required" placeholder="端口" class="layui-input" style="width: 100%;"></td><td><input class="layui-btn layui-btn-sm" type="button" value="新增" onclick=adddata("'+tr_id+'")> <input class="layui-btn layui-btn-sm layui-btn-danger" onclick=del("'+tr_id+'") type="button" value="取消"></td></tr>';
+    tr_id++;
+    $('#adduid').append(html);
+  }
+  function adddata(addtr_id){
+    var api="Index/Index/spideradd";
+    var config=request(api);
+    var ip=$('#addr'+addtr_id).val();
+    var remark=$('#uid'+addtr_id).val();
+    var port=$('#name'+addtr_id).val();
+
+    if(ip==''||remark==''||port==''){
+      layer.msg("请补充完整字段");
+      return false;
+    }
+    $.ajax({
+      url:config.url,
+      data:{remark:remark,ip:ip,port:port,token:config.token},
+      type:"post",
+      dataType:"json",
+      success:function(re){
+        if(re.status=='1'){
+          layer.msg(re.msg);
+          var html='';
+          html+='<td>'+remark+'</td><td>'+ip+'</td><td>'+port+'</td><td>无</td>';
+          $('#list'+addtr_id).html(html);
+        }else{
+          layer.msg(re.msg);
+        }
+      }
+    })
+  }
+
+  function del(deltr_id){
+    deltr_id='list'+deltr_id;
+    $("#"+deltr_id).fadeTo("slow", 0.01, function(){
+        $(this).slideUp("slow", function() {
+            $(this).remove();
+        });
+    });
+  }
+</script>
+</html>

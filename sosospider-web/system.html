@@ -13,7 +13,6 @@
     <link rel="icon" type="image/png" href="assets/i/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
     <meta name="apple-mobile-web-app-title" content="Amaze UI" />
-    <script src="assets/js/echarts.min.js"></script>
     <link rel="stylesheet" href="assets/css/amazeui.min.css" />
     <link rel="stylesheet" href="assets/css/amazeui.datatables.min.css" />
     <link rel="stylesheet" href="assets/css/app.css">
@@ -52,7 +51,7 @@
                     <ul>
                         <!-- 欢迎语 -->
                         <li class="am-text-sm tpl-header-navbar-welcome">
-                            <a href="javascript:;">欢迎你, <span id="username">username</span> </a>
+                            <a href="javascript:;">欢迎你, <span id="username"></span> </a>
                         </li>
 
                         
@@ -140,7 +139,7 @@
                                     <div class="am-form-group">
                                         <div class="am-btn-toolbar">
                                             <div class="am-btn-group am-btn-group-xs">
-                                                <button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
+                                                <button onclick="spideradd()" type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
                                             </div>
                                         </div>
                                     </div>
@@ -215,7 +214,6 @@
     <script src="assets/js/amazeui.min.js"></script>
     <script src="assets/js/amazeui.datatables.min.js"></script>
     <script src="assets/js/dataTables.responsive.min.js"></script>
-    <script src="assets/js/app.js"></script>
 <script type="text/javascript">
 var username=getCookie("username");
 $("#username").html(username);
@@ -241,10 +239,75 @@ $.ajax({
     }
 });
 function edit(id){
-alert("edit"+id);
+    var url="spideredit.html?spider_id="+id;
+    var title="新增爬虫节点";
+    var w,h;
+    var width=window.width;
+    if(width<1200){
+        w="65%";
+        h="50%";
+    }else{
+        w="800px";
+        h="600px";
+    }
+    parent.layer.open({
+        type : 2,//弹窗类型 ['dialog', 'page', 'iframe', 'loading', 'tips']
+        area : [ w, h ],
+        shift : 5,//可选动画类型0-6
+        // scrollbar : true,
+        title : title,
+        content : url,
+        btn: ['确定','取消'],
+        btnAlign: 'c',
+        closeBtn: 1,
+        success:function(layero,index){
+            // var body=layer.getChildFrame('body',index);
+            // var iframeWin=window[layero.find('iframe')[0]['name']];
+            // iframeWin.inputData(data);
+        },
+        end : function() {
+            setTimeout(function(){
+                location.href = "";
+            },10)
+        }
+    })
 }
 function del(id){
 alert("del"+id);
+}
+function spideradd(){
+    var url="spideradd.html";
+    var title="新增爬虫节点";
+    var w,h;
+    var width=window.width;
+    if(width<1200){
+        w="65%";
+        h="50%";
+    }else{
+        w="800px";
+        h="600px";
+    }
+    parent.layer.open({
+        type : 2,//弹窗类型 ['dialog', 'page', 'iframe', 'loading', 'tips']
+        area : [ w, h ],
+        shift : 5,//可选动画类型0-6
+        // scrollbar : true,
+        title : title,
+        content : url,
+        btn: ['确定','取消'],
+        btnAlign: 'c',
+        closeBtn: 1,
+        success:function(layero,index){
+            // var body=layer.getChildFrame('body',index);
+            // var iframeWin=window[layero.find('iframe')[0]['name']];
+            // iframeWin.inputData(data);
+        },
+        end : function() {
+            setTimeout(function(){
+                location.href = "";
+            },10)
+        }
+    })
 }
 </script>
 </body>
