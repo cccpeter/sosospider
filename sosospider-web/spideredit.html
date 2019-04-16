@@ -59,9 +59,9 @@ background-color: #555;
     </style>
 </head>
 <body>
-    <div style="float:right;padding: 10px 30px 10px 0px;">
+    <!-- <div style="float:right;padding: 10px 30px 10px 0px;">
       <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="add();">新增</button>
-    </div>
+    </div> -->
     <div style="width: 90%;text-align: center;padding-left: 30px;padding-right: 30px;">
           <div class="row cl " >
               <table class="layui-table">
@@ -80,10 +80,10 @@ background-color: #555;
                 </thead>
                 <tbody id="adduid">
                    <tr id='list0'>
-                    <td><input type="text" required  placeholder="爬虫备注" id='uid0' class="layui-input" style="width: 100%;"></td>
-                    <td><input id='addr0' type="text" required  lay-verify="required" placeholder="IP" class="layui-input" style="width: 100%;"></td>
-                    <td><input id='name0' type="text" required  lay-verify="required" placeholder="端口" class="layui-input" style="width: 100%;"></td>
-                    <td><input class="layui-btn layui-btn-sm" type="button" value="新增" onclick="adddata('0')"> <input class="layui-btn layui-btn-sm layui-btn-danger" onclick="del('0')" type="button" value="取消"></td>
+                    <td><input type="text" required  placeholder="爬虫备注" id='uid' class="layui-input" style="width: 100%;"></td>
+                    <td><input id='addr' type="text" required  lay-verify="required" placeholder="IP" class="layui-input" style="width: 100%;"></td>
+                    <td><input id='name' type="text" required  lay-verify="required" placeholder="端口" class="layui-input" style="width: 100%;"></td>
+                    <td><input class="layui-btn layui-btn-sm" type="button" value="提交" onclick="editdata()"></td>
                   </tr>
                 </tbody>
               </table>
@@ -98,21 +98,28 @@ background-color: #555;
 </body>
 <script>
   // layui=layui.layer();
-api="Index/Index/systemlist";
+var api="Index/Index/spiderid";
 var config=request(api);
-  window.tr_id='1';
-  function add(){
-    var html='';
-    html+='<tr id=list'+tr_id+'><td><input type="text" required  lay-verify="required" placeholder="爬虫备注" id=uid'+tr_id+' class="layui-input" style="width: 100%;"></td><td><input id=addr'+tr_id+' type="text" required  lay-verify="required" placeholder="IP" class="layui-input" style="width: 100%;"></td><td><input id=name'+tr_id+' type="text" required  lay-verify="required" placeholder="端口" class="layui-input" style="width: 100%;"></td><td><input class="layui-btn layui-btn-sm" type="button" value="新增" onclick=adddata("'+tr_id+'")> <input class="layui-btn layui-btn-sm layui-btn-danger" onclick=del("'+tr_id+'") type="button" value="取消"></td></tr>';
-    tr_id++;
-    $('#adduid').append(html);
+var spider_id=getQueryString("spider_id");  
+$.ajax({
+  url:config.url,
+  data:{token:config.token,spider_id:spider_id},
+  type:"post",
+  dataType:"json",
+  success:function(res){
+    console.log(res);
+    // res=JSON.parse(res);
+    $('#uid').val(res.data.spider_remark);
+    $('#addr').val(res.data.spider_ip);
+    $('#name').val(res.data.spider_port);
   }
-  function adddata(addtr_id){
-    var api="Index/Index/spideradd";
+});
+  function editdata(){
+    var api="Index/Index/spideredit";
     var config=request(api);
-    var ip=$('#addr'+addtr_id).val();
-    var remark=$('#uid'+addtr_id).val();
-    var port=$('#name'+addtr_id).val();
+    var ip=$('#addr').val();
+    var remark=$('#uid').val();
+    var port=$('#name').val();
 
     if(ip==''||remark==''||port==''){
       layer.msg("请补充完整字段");
@@ -120,29 +127,16 @@ var config=request(api);
     }
     $.ajax({
       url:config.url,
-      data:{remark:remark,ip:ip,port:port,token:config.token},
+      data:{remark:remark,ip:ip,port:port,token:config.token,spider_id:spider_id},
       type:"post",
       dataType:"json",
-      success:function(re){
-        if(re.status=='1'){
-          layer.msg(re.msg);
-          var html='';
-          html+='<td>'+remark+'</td><td>'+ip+'</td><td>'+port+'</td><td>无</td>';
-          $('#list'+addtr_id).html(html);
-        }else{
-          layer.msg(re.msg);
-        }
+      success:function(res){
+        layer.msg("修改成功");
+        setTimeout(function(){
+                location.href = "";
+            },2000)
       }
     })
-  }
-
-  function del(deltr_id){
-    deltr_id='list'+deltr_id;
-    $("#"+deltr_id).fadeTo("slow", 0.01, function(){
-        $(this).slideUp("slow", function() {
-            $(this).remove();
-        });
-    });
   }
 </script>
 </html>

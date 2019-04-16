@@ -86,4 +86,45 @@ class Index extends Base
     	$data=json_encode(['status'=>'1','msg'=>"添加成功"]);
     	return $data;
     }
+    public function spiderid(){
+    	$spider_id=input("post.spider_id");
+    	$spider=db("spider")->where(['spider_id'=>$spider_id])->find();
+    	$data=json_encode(['status'=>'1','data'=>$spider]);
+    	return $data;
+    }
+    public function spideredit(){
+    	$remark=input("post.remark");
+    	$ip=input("post.ip");
+    	$port=input("post.port");
+    	$spider_id=input("post.spider_id");
+    	db("spider")->where(['spider_id'=>$spider_id])->update(['spider_remark'=>$remark,'spider_id'=>$spider_id,'spider_port'=>$port]);
+    	$data=['status'=>'1','msg'=>'修改成功'];
+    	$data=json_encode($data);
+    	return $data;
+    }
+    public function spiderdel(){
+    	$spider_id=input("post.spider_id");
+    	$re=db("spider")->where(['spider_id'=>$spider_id])->delete();
+    	$data=['status'=>'1','msg'=>'删除成功'];
+    	return json_encode($data);
+    }
+    /**
+     * 接下来为用户提交网址模块
+     */
+    public function getwebaddr(){
+    	$web=db("web")->select();
+    	foreach ($web as &$value) {
+    		$user=db("user")->where(['user_id'=>$value['user_id']])->find();
+    		$value['user_name']=$user['user_name'];
+    		$value['time']=date("Y-m-d H:i",$value['web_time']);
+    	}
+    	$data=['status'=>'1','data'=>$web];
+    	return json_encode($data);
+    }
+    public function delwebaddr(){
+    	$web_id=input("post.web_id");
+    	db("web")->where(['web_id'=>$web_id])->delete();
+    	$data=['status'=>'1','msg'=>'删除成功'];
+    	return json_encode($data);
+    }
 }

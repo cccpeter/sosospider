@@ -97,17 +97,9 @@
                     </a>
                 </li>
                 <li class="sidebar-nav-link">
-                    <a href="javascript:;" class="sidebar-nav-sub-title">
+                    <a href="user.html">
                         <i class="am-icon-table sidebar-nav-link-logo"></i> 用户数据
-                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                     </a>
-                    <ul class="sidebar-nav sidebar-nav-sub">
-                        <li class="sidebar-nav-link">
-                            <a href="user.html">
-                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 用户分析
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="sidebar-nav-link">
                     <a href="server.html">
@@ -156,36 +148,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="list">
-                                           <!--  <tr class="gradeX">
-                                                <td>2G单核爬虫</td>
-                                                <td>119.29.189.104</td>
-                                                <td>7800</td>
-                                                <td>
-                                                    <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="gradeX">
-                                                <td>1G单核爬虫</td>
-                                                <td>39.108.106.29</td>
-                                                <td>7800</td>
-                                                <td>
-                                                    <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr> -->
+                                           
                                         </tbody>
                                     </table>
                                 </div>
@@ -240,7 +203,7 @@ $.ajax({
 });
 function edit(id){
     var url="spideredit.html?spider_id="+id;
-    var title="新增爬虫节点";
+    var title="编辑爬虫节点";
     var w,h;
     var width=window.width;
     if(width<1200){
@@ -273,7 +236,20 @@ function edit(id){
     })
 }
 function del(id){
-alert("del"+id);
+var api="Index/Index/spiderdel";
+var config=request(api);
+$.ajax({
+  url:config.url,
+  data:{token:config.token,spider_id:id},
+  type:"post",
+  dataType:"json",
+  success:function(res){
+    layer.msg("删除成功");
+    setTimeout(function(){
+            location.href = "";
+        },2000)
+  }
+});
 }
 function spideradd(){
     var url="spideradd.html";

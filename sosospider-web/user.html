@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="assets/css/amazeui.datatables.min.css" />
     <link rel="stylesheet" href="assets/css/app.css">
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/cookie.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css">
 
 </head>
 <body data-type="index">
@@ -49,7 +52,7 @@
                     <ul>
                         <!-- 欢迎语 -->
                         <li class="am-text-sm tpl-header-navbar-welcome">
-                            <a href="javascript:;">欢迎你, <span id="username">username</span> </a>
+                            <a href="javascript:;">欢迎你, <span id="username"></span> </a>
                         </li>
 
                         
@@ -96,17 +99,9 @@
                 </li>
             
                 <li class="sidebar-nav-link">
-                    <a href="javascript:;" class="sidebar-nav-sub-title">
+                    <a href="user.html" class="active">
                         <i class="am-icon-table sidebar-nav-link-logo"></i> 用户数据
-                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                     </a>
-                    <ul class="sidebar-nav sidebar-nav-sub" style="display: block;">
-                        <li class="sidebar-nav-link">
-                            <a href="user.html" class="sub-active">
-                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 用户分析
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                
                 <li class="sidebar-nav-link">
@@ -127,13 +122,13 @@
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
                         <div class="widget am-cf">
                             <div class="widget-head am-cf">
-                                <div class="widget-title  am-cf">用户列表</div>
+                                <div class="widget-title  am-cf">用户网站列表</div>
 
 
                             </div>
                             <div class="widget-body  am-fr">
 
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                                <!-- <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
                                     <div class="am-form-group">
                                         <div class="am-btn-toolbar">
                                             <div class="am-btn-group am-btn-group-xs">
@@ -141,7 +136,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
                                  
                                 </div>
@@ -153,19 +148,18 @@
                                                 <th>网址</th>
                                                 <th>用户</th>
                                                 <th>提交时间</th>
+                                                <th>已索引数量</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr class="gradeX">
+                                        <tbody id="list">
+                                           <!--  <tr class="gradeX">
                                                 <td>http://cpeter.xyz</td>
                                                 <td>cpeter</td>
                                                 <td>2019-04-03</td>
                                                 <td>
                                                     <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
+                                                        
                                                         <a href="javascript:;" class="tpl-table-black-operation-del">
                                                             <i class="am-icon-trash"></i> 删除
                                                         </a>
@@ -178,15 +172,13 @@
                                                 <td>2019-04-04</td>
                                                 <td>
                                                     <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
+                                                        
                                                         <a href="javascript:;" class="tpl-table-black-operation-del">
                                                             <i class="am-icon-trash"></i> 删除
                                                         </a>
                                                     </div>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                            
                                             <!-- more data -->
                                         </tbody>
@@ -217,8 +209,48 @@
     <script src="assets/js/amazeui.min.js"></script>
     <script src="assets/js/amazeui.datatables.min.js"></script>
     <script src="assets/js/dataTables.responsive.min.js"></script>
-    <script src="assets/js/app.js"></script>
-
+<script type="text/javascript">
+var username=getCookie("username");
+$("#username").html(username);
+api="Index/Index/getwebaddr";
+var config=request(api);
+$.ajax({
+    type:"post",
+    url:config.url,
+    contentType:config.contentType,
+    data:{token:config.token},
+    success:function(res){
+        res=JSON.parse(res);
+        if(res.code=="400"){
+            layer.msg("您还未登录，或者权限不足");
+            location.href="login.html";
+        }
+        var html="";
+        console.log(res);
+        for(var i=0;i<res.data.length;i++){
+            html+='<tr class="gradeX"><td>'+res.data[i].web_addr+'</td><td>'+res.data[i].user_name+'</td><td>'+res.data[i].time+'</td><td>'+res.data[i].web_index+'</td><td><div class="tpl-table-black-operation"><a href="javascript:;" class="tpl-table-black-operation-del" onclick=del("'+res.data[i].web_id+'")><i class="am-icon-trash"></i> 删除</a></div></td></tr>';
+        }
+        $('#list').html(html);
+    }
+});
+function del(web_id){
+api="Index/Index/delwebaddr";
+var config=request(api);
+$.ajax({
+    type:"post",
+    url:config.url,
+    contentType:config.contentType,
+    data:{token:config.token,web_id:web_id},
+    success:function(res){
+        res=JSON.parse(res);
+        layer.msg("删除成功");
+        setTimeout(function(){
+                location.href = "";
+            },2000)
+    }
+})
+}
+</script>
 </body>
 
 </html>
