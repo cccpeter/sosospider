@@ -9,6 +9,7 @@ use think\Cache;
 use Redis;
 use app\index\controller\Base;
 use app\index\controller\ElasticsearchService;
+use app\index\controller\Curldata;
 class Index extends Base
 {
 
@@ -40,7 +41,7 @@ class Index extends Base
     		$re=db("spiderday")->insert(['time'=>time(),'nums'=>'0','allnums'=>$keys[1]]);
     	}
     	$spidernums=db("spider")->count();
-    	$spider_online=db("spider")->where(['spider_status'=>'02'])->count();
+    	$spider_online=db("spider")->where(['spider_status'=>'01'])->count();
     	$sys['spidernums']=$spidernums;
     	$sys['spider_online']=$spider_online;
     	$data=json_encode(['data'=>$sys,'code'=>'200']);
@@ -159,5 +160,51 @@ class Index extends Base
     	$re=db("spider")->where(['spider_id'=>$spider_id])->update(['spider_status'=>$status,'spider_url'=>$web['web_addr']]);
     	$data=['status'=>'1','msg'=>'添加成功'];
     	return json_encode($data);
+    }
+    /**
+     * 暂停爬虫
+     * 实际为将爬虫exit，然后等待守护进程将爬虫重启
+     */
+    public function spiderstop(){
+    	$spider_id=input("post.spider_id");
+    	$spider=db("spider")->where(['spider_id'=>$spider_id])->find();
+    	$curldata=new Curldata();
+    	$host=$spider['spider_ip'];
+    	$port=$spider['spider_port'];
+    	// $data=['code'=>'code'];
+    	$api="exit?code=code";
+    	$re=db("spider")->where(['spider_id'=>$spider_id])->update(['spider_status'=>'00']);
+    	$curldata->curlpost($host,$port,'',$api);
+    	return "1";
+    }
+    /**
+     * 启动爬虫
+     * 实际为将爬虫exit，然后等待守护进程将爬虫重启
+     */
+    public function spiderstart(){
+    	$spider_id=input("post.spider_id");
+    	$spider=db("spider")->where(['spider_id'=>$spider_id])->find();
+    	$curldata=new Curldata();
+    	$host=$spider['spider_ip'];
+    	$port=$spider['spider_port'];
+    	$api="getwebaddr?webaddr=".$spider['spider_url'];
+    	$re=db("spider")->where(['spider_id'=>$spider_id])->update(['spider_status'=>'01']);
+    	$curldata->curlpost($host,$port,'',$api);
+    	return "1";
+    }
+    /**
+     * 删除爬虫任务
+     */
+    public function spidertaskdel(){
+    	$spider_id=input("post.spider_id");
+    	$spider=db("spider")->where(['spider_id'=>$spider_id])->find();
+    	$curldata=new Curldata();
+    	$host=$spider['spider_ip'];
+    	$port=$spider['spider_port'];
+    	// $data=['code'=>'code'];
+    	$api="exit?code=code";
+    	$re=db("spider")->where(['spider_id'=>$spider_id])->update(['spider_status'=>'02','spider_url'=>'']);
+    	$curldata->curlpost($host,$port,'',$api);
+    	return "1";
     }
 }

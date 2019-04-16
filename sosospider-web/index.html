@@ -255,7 +255,7 @@ $.ajax({
             var numspider=res.data.spider_online/res.data.spidernums;
             numspider="width:"+numspider*100+"%";
             $("#spider_numclass").attr("style",numspider);
-            $('#task_num').html(res.data.sys_task_num);
+            $('#task_num').html(res.data.spider_online);
             $('#es_num').html(res.data.sys_es_num+" / 20");
             $('#csupervene').html(res.data.sys_csupervene);
         }

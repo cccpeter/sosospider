@@ -218,14 +218,18 @@ $.ajax({
         console.log(res);
         for(var i=0;i<res.data.length;i++){
             var status="";
+            var btn="";
             if(res.data[i].spider_status=="01"){
                 status="任务爬取中";
+                btn='<button type="button" class="am-btn am-btn-secondary am-btn-xs" onclick=spiderstop("'+res.data[i].spider_id+'")>暂停</button><button type="button" class="am-btn am-btn-warning am-btn-xs" onclick=spiderdel("'+res.data[i].spider_id+'")>删除</button>';
             }else if(res.data[i].spider_status=="00"){
                 status="任务暂停中";
+                btn='<button type="button" class="am-btn am-btn-success am-btn-xs" onclick=spiderstart("'+res.data[i].spider_id+'")>启动</button><button type="button" class="am-btn am-btn-warning am-btn-xs" onclick=spiderdel("'+res.data[i].spider_id+'")>删除</button>';
             }else{
                 status="无任务空闲中";
+                btn='<button type="button" class="am-btn am-btn-warning am-btn-xs" onclick=spiderdel("'+res.data[i].spider_id+'")>删除</button>';
             }
-            html+='<tr class="gradeX"><td>'+res.data[i].spider_ip+'</td><td>'+status+'</td><td>'+res.data[i].spider_url+'</td><td><div class="tpl-table-black-operation"><button type="button" class="am-btn am-btn-success am-btn-xs" onclick=spiderstart("'+res.data[i].spider_id+'")>启动</button><button type="button" class="am-btn am-btn-secondary am-btn-xs" onclick=spiderstop("'+res.data[i].spider_id+'")>暂停</button><button type="button" class="am-btn am-btn-warning am-btn-xs" onclick=spiderdel("'+res.data[i].spider_id+'")>删除</button></div></td></tr>';
+            html+='<tr class="gradeX"><td>'+res.data[i].spider_ip+'</td><td>'+status+'</td><td>'+res.data[i].spider_url+'</td><td><div class="tpl-table-black-operation">'+btn+'</td></tr>';
         }
         $('#list').html(html);
     }
@@ -265,12 +269,66 @@ function spidertaskadd(){
     })
 }
 function spiderstart(spider_id){
+    api="Index/Index/spiderstart";
+    var config=request(api);
+    $.ajax({
+        type:"post",
+        url:config.url,
+        contentType:config.contentType,
+        data:{token:config.token,spider_id:spider_id},
+        success:function(res){
+            layer.msg("正在启动中…");
+            setTimeout(function(){
+                location.href = "";
+            },2000)
+        }
+    });
     console.log(spider_id);
 }
 function spiderstop(spider_id){
+    api="Index/Index/spiderstop";
+    var config=request(api);
+    $.ajax({
+        type:"post",
+        url:config.url,
+        contentType:config.contentType,
+        data:{token:config.token,spider_id:spider_id},
+        success:function(res){
+            layer.msg('正在暂停中，大概需要等待20S…', {
+              icon: 1,
+              time: 20000 //2秒关闭（如果不配置，默认是3秒）
+            }, function(){
+              //do something、
+                setTimeout(function(){
+                    location.href = "";
+                },100)
+            }); 
+            
+        }
+    });
     console.log(spider_id);
 }
 function spiderdel(spider_id){
+    api="Index/Index/spidertaskdel";
+    var config=request(api);
+    $.ajax({
+        type:"post",
+        url:config.url,
+        contentType:config.contentType,
+        data:{token:config.token,spider_id:spider_id},
+        success:function(res){
+            layer.msg('正在删除任务中，大概需要等待10S…', {
+              icon: 1,
+              time: 10000 //2秒关闭（如果不配置，默认是3秒）
+            }, function(){
+              //do something、
+                setTimeout(function(){
+                    location.href = "";
+                },100)
+            }); 
+            
+        }
+    });
     console.log(spider_id);
 }
 </script>
