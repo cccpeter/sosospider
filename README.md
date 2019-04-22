@@ -8,7 +8,7 @@
 > * 数据交互Rest
 > * 前端Ajax+jQuery
 > * 后端Php7.0+MySQL+redis做网站的前后台API
-> * shell做一键部署和守护进程
+> * shell+docker做一键部署和守护进程
 
 ------
 
