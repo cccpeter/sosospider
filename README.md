@@ -19,8 +19,10 @@
 
 -----
 ### 使用方式
-> * 进入http://119.29.189.104:81/sosospider-web/userlogin.html登录用户123密码124新增一个网站
-> * 进入http://119.29.189.104:81/sosospider-web/login.html登录用户123密码123进入系统后台
+> * 进入http://119.29.189.104:81/sosospider-web/userlogin.html
+登录用户123密码124新增一个网站
+> * 进入http://119.29.189.104:81/sosospider-web/login.html
+登录用户123密码123进入系统后台
 > * 添加一个部署好的爬虫
 > * 添加爬虫任务
 > * 启动爬虫
