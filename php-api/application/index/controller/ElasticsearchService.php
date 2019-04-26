@@ -2,7 +2,7 @@
 namespace app\index\controller;
 
 class ElasticsearchService{
-	private $host="39.108.106.29";
+	private $host="xxxx";
 	private $port="9200";
 	private $indexName="index_entity"; //索引名，类似于数据库中的数据库名
 	private $tableName="tstype"; //索引的表名，类似于数据库中的数据库的表名
