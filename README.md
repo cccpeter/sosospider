@@ -22,9 +22,9 @@
 > * 进入http://xxxx/soso/index.html
 进入搜索网站
 > * 进入http://xxxx/sosospider-web/userlogin.html
-登录站长用户123密码124新增一个网站
+登录站长用户123密码124新增一个网站（自行注册http://xxxx/sosospider-web/register.html）
 > * 进入http://xxxx/sosospider-web/login.html
-登录管理员用户123密码123进入系统后台
+登录管理员用户123密码123进入系统后台（或者自行数据添加user表的数据）
 > * 添加一个部署好的爬虫
 > * 添加爬虫任务
 > * 启动爬虫
