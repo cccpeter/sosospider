@@ -1,0 +1,6 @@
+1、指定域名白名单进行索引页面
+2、消息中间件更换为Kafka
+3、部署方面使用k8s+docker管理扩展部署spider节点
+4、索引统计需要优化
+5、引入Jenkins自动化部署
+6、引入spring cloud

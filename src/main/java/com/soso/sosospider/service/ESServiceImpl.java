@@ -52,6 +52,7 @@ public class ESServiceImpl implements ContentESService{
             LOGGER.error(e.getMessage());
         }
     }
+    @Override
     public List<ContextBean> searchEntity(String searchContent){
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         //searchSourceBuilder.query(QueryBuilders.queryStringQuery(searchContent));

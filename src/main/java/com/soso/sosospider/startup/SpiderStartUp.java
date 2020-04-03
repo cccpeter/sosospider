@@ -34,8 +34,7 @@ public class SpiderStartUp {
 		try{
 //			first，单次爬取首页的所有链接入redis,seed为起始链接
 			String seed=webAddr;
-			MD5Utils md5Utils=new MD5Utils();
-			String key=md5Utils.md5(webAddr);
+			String key=MD5Utils.md5(webAddr);
 			if(redisDao.getByKey(key)!="1"){
 				redisDao.save(key,"1");
 				spiderService.geturl(seed,webAddr);
@@ -48,7 +47,7 @@ public class SpiderStartUp {
 					if(url==""||url==null){
 						break OUT;
 					}else {
-						String keyexist = md5Utils.md5(url);
+						String keyexist = MD5Utils.md5(url);
 						redisDao.save(keyexist, "1");
 						asyncService.task(seed, url);
 					}
